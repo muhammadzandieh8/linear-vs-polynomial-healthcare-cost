@@ -1,29 +1,16 @@
-# =========================================
-# 0. Import Libraries
-# =========================================
 import numpy as np
 import pandas as pd
-
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
-
 # =========================================
 # 1. Load Dataset
 # =========================================
 df = pd.read_csv("insurance.csv")
-
-print("First 5 rows of dataset:")
-print(df.head())
-print("\nDataset Info:")
-print(df.info())
-
-
 # =========================================
 # 2. Encoding Categorical Features
 # =========================================
@@ -38,7 +25,6 @@ for col in categorical_cols:
 print("\nEncoded Data Sample:")
 print(df.head())
 
-
 # =========================================
 # 3. Exploratory Data Analysis (EDA)
 # Scatter Plot: BMI vs Charges colored by Smoker
@@ -48,32 +34,21 @@ sns.scatterplot(
     data=df,
     x='bmi',
     y='charges',
-    hue=label_encoders['smoker'].inverse_transform(df['smoker'])
-)
+    hue=label_encoders['smoker'].inverse_transform(df['smoker']))
 plt.title("BMI vs Charges (Colored by Smoker)")
 plt.xlabel("BMI")
 plt.ylabel("Charges")
 plt.legend(title="Smoker")
 plt.show()
-
-
 # =========================================
 # 4. Prepare Features and Target
 # =========================================
 X = df.drop('charges', axis=1)
 y = df['charges']
-
-
 # =========================================
 # 5. Train / Test Split
 # =========================================
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y,
-    test_size=0.2,
-    random_state=42
-)
-
-
+X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.3,random_state=42)
 # =========================================
 # 6. Linear Regression (Degree = 1)
 # =========================================
@@ -90,7 +65,6 @@ rmse_test_lr = np.sqrt(mean_squared_error(y_test, y_test_pred_lr))
 
 r2_train_lr = r2_score(y_train, y_train_pred_lr)
 r2_test_lr = r2_score(y_test, y_test_pred_lr)
-
 
 # =========================================
 # 7. Polynomial Regression (Degree = 2)
